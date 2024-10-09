@@ -9,12 +9,12 @@ Licensed under the BSD-2 license (see LICENSE file in main directory)
 #include <ct/optcon/optcon.h>
 
 // declarations
-#include "Internal"
-#include "Common"
-#include "State"
-#include "Robot"
-#include "Systems"
-#include "Nloc"
+#include "Internal.h"
+#include "Common.h"
+#include "State.h"
+#include "Robot.h"
+#include "Systems.h"
+#include "Nloc.h"
 
 // implementations
 #include "Internal-impl"

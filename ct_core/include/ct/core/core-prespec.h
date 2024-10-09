@@ -28,14 +28,14 @@ Licensed under the BSD-2 license (see LICENSE file in main directory)
 #include <unsupported/Eigen/MatrixFunctions>
 
 
-#include "Common"
-#include "Types"
-#include "Control"
-#include "Systems"
-#include "Integration"
-#include "Geometry"
-#include "Internal"
-#include "Math"
+#include "Common.h"
+#include "Types.h"
+#include "Control.h"
+#include "Systems.h"
+#include "Integration.h"
+#include "Geometry.h"
+#include "Internal.h"
+#include "Math.h"
 
 #include "templateDir.h"
 
