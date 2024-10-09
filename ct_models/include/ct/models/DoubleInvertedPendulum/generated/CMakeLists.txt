@@ -18,7 +18,11 @@ set(EIGEN_ROOT   $ENV{EIGEN_ROOT}   CACHE PATH "Path to Eigen headers")
 set(HEADER_INSTALL_ROOT /usr/local/include/ CACHE PATH "Where to install ct_DoubleInvertedPendulum headers")
 set(LIB_INSTALL_ROOT    /usr/local/lib/     CACHE PATH "Where to install ct_DoubleInvertedPendulum library")
 
+if(MSVC)
+SET(CMAKE_CXX_FLAGS "/Zi /std:c++11 /Wall /O2 /D EIGEN_NO_DEBUG")
+else()
 SET(CMAKE_CXX_FLAGS "-g -std=c++11 -Wall -O3 -march=native -mtune=native -D EIGEN_NO_DEBUG")
+endif()
 
 set(LIB_NAME iitgenct_doubleinvertedpendulum)
 

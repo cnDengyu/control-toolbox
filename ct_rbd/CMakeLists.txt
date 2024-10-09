@@ -11,7 +11,11 @@ project(ct_rbd VERSION 3.0.2 LANGUAGES CXX)
 
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+if(MSVC)
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /std:c++14 /Wall")
+else()
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wfatal-errors -std=c++14 -Wall -Wno-unknown-pragmas")
+endif()
 SET(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
 find_package(kindr REQUIRED)

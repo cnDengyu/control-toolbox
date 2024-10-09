@@ -12,8 +12,13 @@ project(ct_optcon VERSION 3.0.2 LANGUAGES CXX)
 
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
+if(MSVC)
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /std:c++14 /Wall")
+set(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} /std:c++14 /Wall")
+else()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -fopenmp -std=c++14 -Wno-unknown-pragmas -Wall -Wfatal-errors")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pthread -std=c++14 -Wfatal-errors")
+endif()
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
 

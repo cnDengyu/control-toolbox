@@ -19,7 +19,11 @@ set(IIT_RBD_ROOT $ENV{IIT_RBD_ROOT} CACHE PATH "Path to iit-rbd headers")
 set(HEADER_INSTALL_ROOT /usr/local/include/ CACHE PATH "Where to install ct_quadrotor headers")
 set(LIB_INSTALL_ROOT /usr/local/lib/ CACHE PATH "Where to install ct_quadrotor library")
 
+if(MSVC)
+SET(CMAKE_CXX_FLAGS "/Zi /Wall /O2 /D EIGEN_NO_DEBUG")
+else()
 SET(CMAKE_CXX_FLAGS "-g -Wall -O3 -march=native -mtune=native -D EIGEN_NO_DEBUG")
+endif()
 
 set(LIB_NAME iitgenct_quadrotor)
 
