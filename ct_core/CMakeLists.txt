@@ -81,7 +81,8 @@ if(${CMAKE_VERSION} VERSION_LESS "3.12.0")
     endif()
 else()
     find_package(Python COMPONENTS Development NumPy QUIET)
-    if (Python_FOUND AND ${Python_VERSION_MAJOR} EQUAL 3)
+    if (Python_FOUND AND ${Python_VERSION_MAJOR} EQUAL 3 AND (NOT WIN32))
+        # Python debug libraries is not commonly available on windows.
         message(STATUS "Found python " ${Python_VERSION})
         list(APPEND ct_core_COMPILE_DEFINITIONS PLOTTING_ENABLED)
         set(PLOTTING_ENABLED ON)
@@ -139,7 +140,7 @@ endif()
 
 
 ## create ct_core libraries
-add_library(ct_plot SHARED src/core/plot/plot.cpp)
+add_library(ct_plot STATIC src/core/plot/plot.cpp)
 target_include_directories(ct_plot PUBLIC ${ct_core_target_include_dirs})
 target_compile_definitions(ct_plot PUBLIC ${ct_core_COMPILE_DEFINITIONS})
 target_link_libraries(ct_plot ${ct_core_LIBS})
