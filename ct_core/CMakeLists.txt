@@ -148,22 +148,20 @@ target_link_libraries(ct_plot ${ct_core_LIBS})
 add_library(ct_core INTERFACE)
 target_include_directories(ct_core INTERFACE ${ct_core_target_include_dirs})
 target_compile_definitions(ct_core INTERFACE ${ct_core_COMPILE_DEFINITIONS})
-if(MSVC)
-target_link_libraries(ct_core INTERFACE
+set(CT_CORE_FINAL_LIBS
     ${ct_core_LIBS}
     ${PRESPEC_LIB_NAMES}
     ct_plot
-    dl # required for gcc compatibility
-    )
-else()
-target_link_libraries(ct_core INTERFACE
-    ${ct_core_LIBS}
-    ${PRESPEC_LIB_NAMES}
-    ct_plot
-    pthread
-    dl # required for gcc compatibility
-    )
+)
+if(CMAKE_HOST_UNIX)
+    list(APPEND CT_CORE_FINAL_LIBS pthread)
 endif()
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") 
+    list(APPEND CT_CORE_FINAL_LIBS dl) # required for gcc compatibility
+endif()
+target_link_libraries(ct_core INTERFACE
+    ${CT_CORE_FINAL_LIBS}
+    )
 
 set(ct_core ct_core CACHE INTERNAL "ct_core library target.")
 set(ct_plot ct_plot CACHE INTERNAL "ct_plot library target.")
