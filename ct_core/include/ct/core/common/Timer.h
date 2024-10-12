@@ -5,7 +5,7 @@ Licensed under the BSD-2 license (see LICENSE file in main directory)
 
 #pragma once
 
-#include <sys/time.h>
+#include <chrono> 
 
 namespace ct {
 namespace core {
@@ -20,43 +20,40 @@ class Timer
 {
 public:
     //! Default constructor
-    Timer() { reset(); }
+    Timer() = default;
     //! Trigger start.
     /*!
 	 * Starts the time measurement.
 	 * Can be re-triggered without calling stop(). Simply overrides the start timestamp.
 	 */
-    inline void start() { gettimeofday(&start_time, NULL); }
+    inline void start() { start_time = std::chrono::high_resolution_clock::now(); }
     //! Trigger stop
     /*!
 	 * Stops the time measurement.
 	 */
-    inline void stop() { gettimeofday(&stop_time, NULL); }
+    inline void stop() { stop_time = std::chrono::high_resolution_clock::now(); }
     //! Get the elapsed time between calls to start() and stop()
     /*!
 	 *
 	 * @return time in seconds
 	 */
-    SCALAR getElapsedTime() const
-    {
-        return (stop_time.tv_sec - start_time.tv_sec) + (stop_time.tv_usec - start_time.tv_usec) * 1e-6;
+    SCALAR getElapsedTime() const {  
+        auto duration = stop_time - start_time;  
+        return std::chrono::duration_cast<std::chrono::duration<SCALAR>>(duration).count();  
     }
 
     //! Resets the clock.
     /*!
 	 * Not needed to be called after start()/stop() calls.
 	 */
-    void reset()
-    {
-        start_time.tv_sec = 0;
-        start_time.tv_usec = 0;
-        stop_time.tv_sec = 0;
-        stop_time.tv_usec = 0;
+    void reset() {  
+        start_time = std::chrono::time_point<std::chrono::high_resolution_clock>::min();  
+        stop_time = std::chrono::time_point<std::chrono::high_resolution_clock>::min();  
     }
 
 private:
-    struct timeval start_time; /*!< start time */
-    struct timeval stop_time;  /*!< stop time */
+    std::chrono::time_point<std::chrono::high_resolution_clock> start_time;  
+    std::chrono::time_point<std::chrono::high_resolution_clock> stop_time;  
 };
 }
 

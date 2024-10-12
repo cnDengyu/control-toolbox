@@ -17,6 +17,7 @@ else()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wfatal-errors -std=c++14 -Wall -Wno-unknown-pragmas")
 endif()
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+message("CMAKE_CXX_FLAGS is ${CMAKE_CXX_FLAGS}")
 
 if(NOT TARGET ${ct_rbd})
 	find_package(ct_rbd REQUIRED)
@@ -31,6 +32,7 @@ importInterfaceCompileDefinitionsAsOptions(ct_rbd)
 
 ## define the directories to be included in all ct_rbd targets
 set(ct_models_target_include_dirs
+    ${BOOST_INCLUDEDIR}
     ${ct_rbd_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
@@ -200,13 +202,21 @@ list(APPEND CT_MODELS_LIBRARIES quadrotorDynamics)
 
 add_library(hya_ik src/HyA/transform6d.cpp)
 target_include_directories(hya_ik PUBLIC ${ct_models_target_include_dirs})
+if(MSVC)
+set_target_properties(hya_ik PROPERTIES COMPILE_FLAGS "-DIKFAST_NAMESPACE=hya_ik -DIKFAST_NO_MAIN")
+else()
 set_target_properties(hya_ik PROPERTIES COMPILE_FLAGS "-std=c++98 -fPIC -DIKFAST_NAMESPACE=hya_ik -DIKFAST_NO_MAIN -Wno-unused-variable")
+endif()
 target_link_libraries(hya_ik ct_rbd)
 list(APPEND CT_MODELS_LIBRARIES hya_ik)
 
 add_library(irb4600_ik src/Irb4600/transform6d.cpp)
 target_include_directories(irb4600_ik PUBLIC ${ct_models_target_include_dirs})
+if(MSVC)
+set_target_properties(irb4600_ik PROPERTIES COMPILE_FLAGS "-DIKFAST_NAMESPACE=hya_ik -DIKFAST_NO_MAIN")
+else()
 set_target_properties(irb4600_ik PROPERTIES COMPILE_FLAGS "-std=c++98 -fPIC -DIKFAST_NAMESPACE=irb4600_ik -DIKFAST_NO_MAIN -Wno-unused-variable")
+endif()
 target_link_libraries(irb4600_ik ct_rbd)
 list(APPEND CT_MODELS_LIBRARIES irb4600_ik)
 

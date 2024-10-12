@@ -4,7 +4,7 @@ Licensed under the BSD-2 license (see LICENSE file in main directory)
 **********************************************************************************************************************/
 
 #pragma once
-
+#include <array>
 #include <ct/core/math/Derivatives.h>
 
 namespace ct {
