@@ -148,6 +148,14 @@ target_link_libraries(ct_plot ${ct_core_LIBS})
 add_library(ct_core INTERFACE)
 target_include_directories(ct_core INTERFACE ${ct_core_target_include_dirs})
 target_compile_definitions(ct_core INTERFACE ${ct_core_COMPILE_DEFINITIONS})
+if(MSVC)
+target_link_libraries(ct_core INTERFACE
+    ${ct_core_LIBS}
+    ${PRESPEC_LIB_NAMES}
+    ct_plot
+    dl # required for gcc compatibility
+    )
+else()
 target_link_libraries(ct_core INTERFACE
     ${ct_core_LIBS}
     ${PRESPEC_LIB_NAMES}
@@ -155,6 +163,7 @@ target_link_libraries(ct_core INTERFACE
     pthread
     dl # required for gcc compatibility
     )
+endif()
 
 set(ct_core ct_core CACHE INTERNAL "ct_core library target.")
 set(ct_plot ct_plot CACHE INTERNAL "ct_plot library target.")
