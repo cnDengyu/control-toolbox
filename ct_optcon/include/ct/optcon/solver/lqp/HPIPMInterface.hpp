@@ -24,6 +24,9 @@ extern "C" {
 
 #include <unsupported/Eigen/MatrixFunctions>
 
+// MSVC may indirectly define macros min and max, undefine them here.
+#undef min
+#undef max
 
 namespace ct {
 namespace optcon {
